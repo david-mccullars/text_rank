@@ -1,0 +1,29 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+    checks:
+      Similar code:
+        enabled: false
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
+    exclude_fingerprints:
+    - 4218049e28199ed950d3cd721df86dce
+    - c8179d0de3a9df18a2c45750d3f8647e
+    - 03f6eee11d86507da564695007106721
+ratings:
+  paths:
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+  - "**.rb"
+exclude_paths:
+- spec/
