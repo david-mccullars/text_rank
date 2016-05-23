@@ -12,7 +12,10 @@ module TextRank
   ##
   module RankFilter
 
-    autoload :CollapseAdjacent, 'text_rank/rank_filter/collapse_adjacent'
+    autoload :CollapseAdjacent,     'text_rank/rank_filter/collapse_adjacent'
+    autoload :NormalizeProbability, 'text_rank/rank_filter/normalize_probability'
+    autoload :NormalizeUnitVector,  'text_rank/rank_filter/normalize_unit_vector'
+    autoload :SortByValue,          'text_rank/rank_filter/sort_by_value'
 
   end
 end

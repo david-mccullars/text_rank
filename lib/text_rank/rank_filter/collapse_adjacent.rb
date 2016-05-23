@@ -90,7 +90,7 @@ module TextRank
 
           @to_collapse = Set.new # Track the permutations we plan to collapse
           @to_remove = Set.new # Track the single tokens we plan to remove (due to being collapsed)
-          @permutations_scanned = {} # Track how many occurrences of each permutation we found in the original text
+          @permutations_scanned = Hash.new(0.0) # Track how many occurrences of each permutation we found in the original text
           @combination_significance_threshold = 0.3 # The percent of occurrences of a combo of tokens to the occurrences of single tokens required to force collapsing
         end
 
@@ -118,11 +118,7 @@ module TextRank
           end
           @tokens.reject! do |k, _|
             @to_remove.include?(k)
-          end
-
-          # Because we've made changes to the tokens hash, we need to re-normalize so that
-          # the sum of all token ranks is still 1.
-          normalize(@tokens)
+          end || @tokens
         end
 
         # We need to be efficient about how we search for the large number of possible collapsed keywords.
@@ -202,12 +198,6 @@ module TextRank
         def combination_significant?(perm, perm_count)
           total_single_count = perm.reduce(0) { |s, t| s + @permutations_scanned[[t]] } / perm.size.to_f
           total_single_count.zero? || (perm_count / total_single_count) > @combination_significance_threshold
-        end
-
-        # Scale all of the token ranks so they add up to 1.
-        def normalize(tokens)
-          total = tokens.reduce(0.0) { |s, (_, v)| s + v }
-          Hash[tokens.map { |k, v| [k, v / total] }.sort_by { |_, v| -v }]
         end
 
       end

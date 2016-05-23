@@ -29,7 +29,7 @@ module TextRank
         tokenizer:      :WordsAndPunctuation,
         token_filters:  [:PartOfSpeech, :Stopwords, :MinLength],
         graph_strategy: :Coocurrence,
-        rank_filters:   [:CollapseAdjacent],
+        rank_filters:   [:CollapseAdjacent, :NormalizeUnitVector, :SortByValue],
       }.merge(options))
     end
 

@@ -1,3 +1,3 @@
 module TextRank
-  VERSION = '1.1.1'
+  VERSION = '1.1.2'
 end

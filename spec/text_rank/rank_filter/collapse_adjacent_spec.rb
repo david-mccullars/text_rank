@@ -24,7 +24,7 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       },
       original_text: EXAMPLE_TEXT
     )
-    expect(collapsed.keys).to eq([
+    expect(collapsed.keys).to match_array([
       'candide',
       'beautiful',
       'horses',
@@ -33,7 +33,6 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       'country',
       'mead',
     ])
-    expect(collapsed.values.reduce(:+)).to be_within(0.1).of(1.0)
   end
 
   it "should collapse and remove all single tokens when there are only instances of the combo" do
@@ -50,7 +49,7 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       },
       original_text: EXAMPLE_TEXT
     )
-    expect(collapsed.keys).to eq([
+    expect(collapsed.keys).to match_array([
       'candide',
       'beautiful',
       'spin',
@@ -59,7 +58,6 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       'unknown country', # we collapse 'unknown country' and remove both singles because the two only occur as a pair
       'mead',
     ])
-    expect(collapsed.values.reduce(:+)).to be_within(0.1).of(1.0)
   end
 
   it "should collapse but retain single tokens that occur strictly more often than the combo" do
@@ -76,7 +74,7 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       },
       original_text: EXAMPLE_TEXT
     )
-    expect(collapsed.keys).to eq([
+    expect(collapsed.keys).to match_array([
       'candide',
       'two',          # we retain 'two' because it occurs more times than 'two monkeys'
       'two monkeys',  # we collapse 'two monkeys' & REMOVE 'monkeys' because the latter only ever occurs as the pair
@@ -86,7 +84,6 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       'drag',
       'unknown',
     ])
-    expect(collapsed.values.reduce(:+)).to be_within(0.1).of(1.0)
   end
 
   it "should collapse even if combo occurrs less often than single tokens as long as it occurrs a 'significant' enough times" do
@@ -102,7 +99,7 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       },
       original_text: EXAMPLE_TEXT
     )
-    expect(collapsed.keys).to eq([
+    expect(collapsed.keys).to match_array([
       'cacambo',
       'wanderers',
       'he',       # we retain 'he' because it occurs more times than 'he was'
@@ -112,7 +109,6 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       'days',
       'unknown',
     ])
-    expect(collapsed.values.reduce(:+)).to be_within(0.1).of(1.0)
   end
 
   it "should NOT collapse a combo when it shows up 'significantly' less than the single tokens" do
@@ -128,7 +124,7 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       },
       original_text: EXAMPLE_TEXT
     )
-    expect(collapsed.keys).to eq([
+    expect(collapsed.keys).to match_array([
       'candide', # we retain 'candide' because it occurs more times than 'and candide'
       # we do NOT add 'and candide' even though it appears because it occurs less than 30% of the time of 'and' & 'candide' (which fails to meet the significance threshold)
       'beautiful',
@@ -138,7 +134,6 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       'mead',
       'unknown',
     ])
-    expect(collapsed.values.reduce(:+)).to be_within(0.1).of(1.0)
   end
 
   it "should make multiple passes to collapse until satisfied that the top X have been fully collapsed" do
@@ -157,7 +152,7 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       },
       original_text: EXAMPLE_TEXT
     )
-    expect(collapsed.keys).to eq([
+    expect(collapsed.keys).to match_array([
       'candide',
       'beautiful',
       'two',
@@ -168,7 +163,6 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
       'two monkeys', # This doesn't get collapsed on the first pass because 'monkeys' isn't in the top 8, but after collapsing 'little cries' it falls into the top 8
       'cunegonde', # This does not get collapsed into 'beautiful cunegonde' because 'cunegonde' never falls into the top 8
     ])
-    expect(collapsed.values.reduce(:+)).to be_within(0.1).of(1.0)
   end
 
 end
