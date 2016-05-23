@@ -43,6 +43,7 @@ module TextRank
       # @param ranks [Hash<String, Float>] the results of the PageRank algorithm
       # @return [Hash<String, Float>]
       def filter!(ranks, **_)
+        return if ranks.empty?
         total = ranks.values.reduce(:+)
         Hash[ranks.map { |k, v| [k, v / total] }]
       end
