@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['david.mccullars@gmail.com']
 
   spec.summary       = %q{Implementation of TextRank solution to ranked keyword extraction}
-  spec.description   = %q{See https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwjK9tfHxcvMAhVOzGMKHdaQBeEQFggdMAA&url=https%3A%2F%2Fweb.eecs.umich.edu%2F~mihalcea%2Fpapers%2Fmihalcea.emnlp04.pdf&usg=AFQjCNHL5SGlxLy4qmEg1yexaKGZK_Q7IA}
+  spec.description   = %q{Implementation of TextRank solution to ranked keyword extraction.  See https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf}
   spec.homepage      = 'https://github.com/david-mccullars/text_rank'
   spec.license       = 'MIT'
 
