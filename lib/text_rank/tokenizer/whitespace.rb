@@ -1,19 +1,11 @@
 module TextRank
   module Tokenizer
     ##
-    # Tokenizer to split on any whitespace
-    #
-    # = Example
-    #
-    #  Whitespace.new.tokenize("i should:like to know:which is worse.")
-    #  => ["i", "should:like", "to", "know:which", "is", "worse."]
+    # A tokenizer regex that preserves single whitespace characters as a token. Use
+    # this if one or more of your TokenFilter classes need whitespace in order to
+    # make decisions.
     ##
-    class Whitespace < Regex
+    Whitespace = %r{\s}
 
-      def initialize
-        super(/\s+/)
-      end
-
-    end
   end
 end

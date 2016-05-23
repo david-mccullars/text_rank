@@ -33,8 +33,8 @@ module PageRank
     end
 
     # Adds a directed (and optionally weighted) edge to the graph
-    # @param source [Object] The source node
-    # @param dest [Object] The destination node
+    # @param _source [Object] The source node
+    # @param _dest [Object] The destination node
     # @return [nil]
     def add(_source, _dest, **_options)
       raise NotImplementedError

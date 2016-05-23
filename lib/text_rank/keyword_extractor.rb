@@ -14,7 +14,7 @@ module TextRank
     def self.basic(**options)
       new(**{
         char_filters:   [:AsciiFolding, :Lowercase],
-        tokenizer:      :Whitespace,
+        tokenizers:     [:Word],
         token_filters:  [:Stopwords, :MinLength],
         graph_strategy: :Coocurrence,
       }.merge(options))
@@ -26,7 +26,7 @@ module TextRank
     def self.advanced(**options)
       new(**{
         char_filters:   [:AsciiFolding, :Lowercase, :StripHtml, :StripEmail, :UndoContractions, :StripPossessive],
-        tokenizer:      :WordsAndPunctuation,
+        tokenizers:     [:Url, :Money, :Number, :Word, :Punctuation],
         token_filters:  [:PartOfSpeech, :Stopwords, :MinLength],
         graph_strategy: :Coocurrence,
         rank_filters:   [:CollapseAdjacent, :NormalizeUnitVector, :SortByValue],
@@ -35,18 +35,18 @@ module TextRank
 
     # @option (see PageRank.new)
     # @option options [Array<Class, Symbol, #filter!>]  :char_filters A list of filters to be applied prior to tokenization
-    # @option options [Class, Symbol, #tokenize]        :tokenizer A class or tokenizer instance to perform tokenization
+    # @option options [Array<Symbol, Regexp, String>]   :tokenizers A list of tokenizer regular expressions to perform tokenization
     # @option options [Array<Class, Symbol, #filter!>]  :token_filters A list of filters to be applied to each token after tokenization
     # @option options [Class, Symbol, #build_graph]     :graph_strategy A class or strategy instance for producing a graph from tokens
     # @option options [Array<Class, Symbol, #filter!>]  :rank_filters A list of filters to be applied to the keyword ranks after keyword extraction
     def initialize(**options)
       @page_rank_options = {
-        strategy: options[:strategy] || :sparse,
+        strategy: options[:strategy] || :dense,
         damping: options[:damping],
         tolerance: options[:tolerance],
       }
       @char_filters   = options[:char_filters] || []
-      @tokenizer      = options[:tokenizer] || Tokenizer::Whitespace
+      @tokenizers     = options[:tokenizers] || [Tokenizer::Word]
       @token_filters  = options[:token_filters] || []
       @rank_filters   = options[:rank_filters] || []
       @graph_strategy = options[:graph_strategy] || GraphStrategy::Coocurrence
@@ -61,11 +61,13 @@ module TextRank
       nil
     end
 
-    # Sets the tokenizer for producing tokens from filtered text
-    # @param tokenizer [Class, Symbol, #tokenize] Tokenizer
-    # @return [Class, Symbol, #tokenize]
-    def tokenizer=(tokenizer)
-      @tokenizer = tokenizer
+    # Add a tokenizer regular expression for producing tokens from filtered text
+    # @param tokenizer [Symbol, Regexp, String] Tokenizer regular expression
+    # @param (see #add_into)
+    # @return [nil]
+    def add_tokenizer(tokenizer, **options)
+      add_into(@tokenizers, tokenizer, **options)
+      nil
     end
 
     # Sets the graph strategy for producing a graph from tokens
@@ -98,7 +100,7 @@ module TextRank
     # @return [Array<String>] tokens
     def tokenize(text)
       filtered_text = apply_char_filters(text)
-      tokens = classify(@tokenizer, context: Tokenizer).tokenize(filtered_text)
+      tokens = Tokenizer.tokenize(filtered_text, *tokenizer_regular_expressions)
       apply_token_filters(tokens)
     end
 
@@ -118,6 +120,17 @@ module TextRank
     def apply_char_filters(text)
       @char_filters.reduce(text.clone) do |t, f|
         classify(f, context: CharFilter).filter!(t) || t
+      end
+    end
+
+    def tokenizer_regular_expressions
+      @tokenizers.map do |t|
+        case t
+        when Symbol
+          Tokenizer.const_get(t)
+        else
+          t
+        end
       end
     end
 

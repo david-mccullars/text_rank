@@ -8,12 +8,33 @@ module TextRank
   # help inform its decision on which tokens to keep and which to drop.  An example
   # of this is the part of speech token filter which uses punctuation tokens to
   # help guess the part of speech of each non-punctuation token.
+  #
+  # When tokenizing a piece of text, the Tokenizer will combine one or more
+  # regular expressions (in the order given) to scan the text for matches. As such
+  # you need only tell the tokenizer which tokens you want; everything else will
+  # be ignored.
   ##
   module Tokenizer
 
-    autoload :Regex,                'text_rank/tokenizer/regex'
-    autoload :Whitespace,           'text_rank/tokenizer/whitespace'
-    autoload :WordsAndPunctuation,  'text_rank/tokenizer/words_and_punctuation'
+    autoload :Money,        'text_rank/tokenizer/money'
+    autoload :Number,       'text_rank/tokenizer/number'
+    autoload :Punctuation,  'text_rank/tokenizer/punctuation'
+    autoload :Url,          'text_rank/tokenizer/url'
+    autoload :Whitespace,   'text_rank/tokenizer/whitespace'
+    autoload :Word,         'text_rank/tokenizer/word'
+
+    # Performs tokenization of piece of text by one or more tokenizer regular expressions.
+    # @param text [String]
+    # @param regular_expressions [Array<Regexp|String>]
+    # @return [Array<String>]
+    def self.tokenize(text, *regular_expressions)
+      tokens = []
+      text.scan(Regexp.new(regular_expressions.flatten.join('|'))) do |matches|
+        m = matches.compact.first
+        tokens << m if m && m.size > 0
+      end
+      tokens
+    end
 
   end
 end

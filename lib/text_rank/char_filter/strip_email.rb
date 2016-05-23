@@ -10,6 +10,7 @@ module TextRank
     ##
     class StripEmail
 
+      # Simple regex to match most emails
       EMAIL_REGEX = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i
 
       # Perform the filter

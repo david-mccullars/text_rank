@@ -62,7 +62,7 @@ module TextRank
       # @option options [Fixnum] ranks_to_collapse the top N ranks in which to look for collapsable keywords
       # @option options [Fixnum] max_tokens_to_combine the maximum number of tokens to collapse into a combined keyword
       # @option options [true, false] ignore_case whether to ignore case when finding adjacent keywords in original text
-      # @options options [String] delimiter an optional delimiter between adjacent keywords in original text
+      # @option options [String] delimiter an optional delimiter between adjacent keywords in original text
       def initialize(**options)
         @options = options
       end
@@ -74,8 +74,6 @@ module TextRank
       def filter!(ranks, original_text:, **_)
         TokenCollapser.new(tokens: ranks, text: original_text, **@options).collapse
       end
-
-      private
 
       class TokenCollapser
 
@@ -94,10 +92,12 @@ module TextRank
           @combination_significance_threshold = 0.3 # The percent of occurrences of a combo of tokens to the occurrences of single tokens required to force collapsing
         end
 
+        # :nodoc:
         def delimiter_re
           @delimiter_re ||= /#{@delimiter}+/
         end
 
+        # :nodoc:
         def collapse
           # We make multiple passes at collapsing because after the first pass we may have
           # replaced two or more singletons with a collapsed token, bumping up one or more
@@ -201,6 +201,8 @@ module TextRank
         end
 
       end
+
+      private_constant :TokenCollapser
 
     end
   end

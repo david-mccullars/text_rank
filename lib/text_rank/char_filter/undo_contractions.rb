@@ -10,6 +10,7 @@ module TextRank
     ##
     class UndoContractions
 
+      # List of English contractions to undo
       CONTRACTIONS = {
         "ain't"            => "am not",
         "amn't"            => "am not",

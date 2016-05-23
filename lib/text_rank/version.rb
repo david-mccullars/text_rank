@@ -1,3 +1,4 @@
 module TextRank
-  VERSION = '1.1.3'
+  # Current gem version
+  VERSION = '1.1.4'
 end
