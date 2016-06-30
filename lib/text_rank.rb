@@ -8,6 +8,7 @@ require 'page_rank'
 module TextRank
 
   autoload :CharFilter,       'text_rank/char_filter'
+  autoload :Fingerprint,      'text_rank/fingerprint'
   autoload :GraphStrategy,    'text_rank/graph_strategy'
   autoload :KeywordExtractor, 'text_rank/keyword_extractor'
   autoload :RankFilter,       'text_rank/rank_filter'
@@ -29,6 +30,10 @@ module TextRank
   # @return (see extract_keywords)
   def self.extract_keywords_advanced(text, **options)
     TextRank::KeywordExtractor.advanced(**options).extract(text, **options)
+  end
+
+  def self.similarity(keywords1, keywords2)
+    TextRank::Fingerprint.new(*keywords1).similarity(TextRank::Fingerprint.new(*keywords2))
   end
 
 end
