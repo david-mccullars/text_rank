@@ -10,35 +10,35 @@ module TextRank
   # significant keywords.  But to prevent less significant keywords from being
   # completely ignored we apply an inverse log linear transformation to each of the
   # N prefixes.
-  # 
+  #
   # For example, consider the following comparison:
-  # 
+  #
   #   town man empty found
   #   vs.
   #   general empty found jar
-  # 
+  #
   # The first pass considers just the first keywords: town vs. general.  As these
   # are different, they contribute 0.
-  # 
+  #
   # The second pass considers the first two keywords: town man vs general empty.
   # Again, no overlap, so they contribute 0.
-  # 
+  #
   # The third pass considers the first three keywords: town man empty vs general
   # empty found.  Here we have one overlap: empty. This contributes 1.
-  # 
+  #
   # The fourth pass considers all, and there is two overlaps:  empty & found.  This
   # contributes 2.
-  # 
+  #
   # We can represent the overlaps as the vector [0, 0, 1, 2].  Then we will apply
   # the inverse log linear transformation defined by:
-  # 
+  #
   #   f(x_i) = x_i / ln(i + 1)
   #          = [0, 0, 1 / ln(4), 2 / ln(5)]
   #          = [0, 0, 0.7213475204444817, 1.2426698691192237]
-  # 
+  #
   # Finally we take the average of the transformed vector and normalize it (to
   # ensure a final value between 0.0 and 1.0):
-  # 
+  #
   #   norm(avg(SUM f(x_i))) = norm( avg(1.9640173895637054) )
   #                         = norm( 0.49100434739092635 )
   #                         = 0.49100434739092635 / avg(SUM f(1, 2, 3, 4))

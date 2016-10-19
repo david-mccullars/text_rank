@@ -105,7 +105,8 @@ module TextRank
           # until all of the top N final keywords (single or collapsed) have been
           # considered.
           loop do
-            single_tokens_to_consider = @tokens.keys.first(@ranks_to_collapse + @to_remove.size - @to_collapse.size) - @to_remove.to_a
+            regexp_safe_tokens = @tokens.keys.select { |s| Regexp.escape(s) == s }
+            single_tokens_to_consider = regexp_safe_tokens.first(@ranks_to_collapse + @to_remove.size - @to_collapse.size) - @to_remove.to_a
             scan_text_for_all_permutations_of(single_tokens_to_consider) or break
             decide_what_to_collapse_and_what_to_remove
           end
@@ -157,7 +158,7 @@ module TextRank
           flags = 0
           flags |= Regexp::IGNORECASE if @ignore_case
           searches = all.map do |a|
-            Array(a).map { |s| Regexp.escape(s) }.join(delimiter_re.to_s)
+            a.is_a?(Array) ? a.join(delimiter_re.to_s) : a
           end
           re = Regexp.new("\\b(#{searches.join('|')})\\b", flags)
 

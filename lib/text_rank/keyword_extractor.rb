@@ -41,7 +41,7 @@ module TextRank
     # @option options [Array<Class, Symbol, #filter!>]  :rank_filters A list of filters to be applied to the keyword ranks after keyword extraction
     def initialize(**options)
       @page_rank_options = {
-        strategy: options[:strategy] || :dense,
+        strategy: options[:strategy] || :sparse,
         damping: options[:damping],
         tolerance: options[:tolerance],
       }
