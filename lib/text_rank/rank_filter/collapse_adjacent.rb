@@ -157,7 +157,7 @@ module TextRank
           flags = 0
           flags |= Regexp::IGNORECASE if @ignore_case
           searches = all.map do |a|
-            a.is_a?(Array) ? a.join(delimiter_re.to_s) : a
+            Array(a).map { Regexp.escape(a) }.join(delimiter_re.to_s)
           end
           re = Regexp.new("\\b(#{searches.join('|')})\\b", flags)
 
