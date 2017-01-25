@@ -114,7 +114,11 @@ module TextRank
           # We now know what to collapse and what to remove, so we can start safely
           # modifying the tokens hash
           @to_collapse.each do |perm|
-            values = @tokens.values_at(*perm)
+            values = @tokens.values_at(*perm).compact
+            # This might be empty if somehow the scanned permutation doesn't
+            # exactly match one of the tokens (e.g. ASCII-folding gone awry).
+            # The goal is to do the best we can, so if we can't find it, ignore.
+            next if values.empty?
             @tokens[perm.join(@delimiter)] = values.reduce(:+) / values.size
           end
           @tokens.reject! do |k, _|
