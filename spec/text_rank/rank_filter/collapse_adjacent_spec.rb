@@ -165,4 +165,30 @@ While he was thus lamenting his fate, he went on eating. The sun went down. The 
     ])
   end
 
+  it "non-ASCII tokens that match the scan regex should not cause nil errors" do
+    collapsed = TextRank::RankFilter::CollapseAdjacent.new(ranks_to_collapse: 8, max_tokens_to_combine: 3).filter!(
+      {
+        'product'       => 0.019419035615479842,
+        'beautiful'     => 0.015509572886452754,
+        'little'        => 0.01495291163079878,
+        'horses'        => 0.01486823201620794,
+        'drag'          => 0.014657860280239304,
+        'country'       => 0.014412569811892607,
+        'mead'          => 0.014341784918006825,
+        'certification' => 0.014292943715786686,
+      },
+      original_text: "Product Certiﬁcation #{EXAMPLE_TEXT}",
+    )
+    expect(collapsed.keys).to match_array([
+      'product certiﬁcation',
+      'beautiful',
+      'little',
+      'horses',
+      'drag',
+      'country',
+      'mead',
+      'certification',
+    ])
+  end
+
 end
