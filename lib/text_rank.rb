@@ -9,14 +9,15 @@ require 'yaml'
 ##
 module TextRank
 
-  autoload :CharFilter,       'text_rank/char_filter'
-  autoload :Fingerprint,      'text_rank/fingerprint'
-  autoload :GraphStrategy,    'text_rank/graph_strategy'
-  autoload :KeywordExtractor, 'text_rank/keyword_extractor'
-  autoload :RankFilter,       'text_rank/rank_filter'
-  autoload :TokenFilter,      'text_rank/token_filter'
-  autoload :Tokenizer,        'text_rank/tokenizer'
-  autoload :VERSION,          'text_rank/version'
+  autoload :CharFilter,         'text_rank/char_filter'
+  autoload :Fingerprint,        'text_rank/fingerprint'
+  autoload :FingerprintOverlap, 'text_rank/fingerprint_overlap'
+  autoload :GraphStrategy,      'text_rank/graph_strategy'
+  autoload :KeywordExtractor,   'text_rank/keyword_extractor'
+  autoload :RankFilter,         'text_rank/rank_filter'
+  autoload :TokenFilter,        'text_rank/token_filter'
+  autoload :Tokenizer,          'text_rank/tokenizer'
+  autoload :VERSION,            'text_rank/version'
 
   # A convenience method for quickly extracting keywords from text with default options
   # @param text [String] text from which to extract keywords

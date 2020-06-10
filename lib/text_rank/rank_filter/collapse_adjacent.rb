@@ -106,15 +106,26 @@ module TextRank
           # single tokens from below the cut to above it.  So we'll continue searching
           # until all of the top N final keywords (single or collapsed) have been
           # considered.
-          loop do
-            regexp_safe_tokens = @tokens.keys.select { |s| Regexp.escape(s) == s }
-            single_tokens_to_consider = regexp_safe_tokens.first(@ranks_to_collapse + @to_remove.size - @to_collapse.size) - @to_remove.to_a
-            scan_text_for_all_permutations_of(single_tokens_to_consider) or break
-            decide_what_to_collapse_and_what_to_remove
+          while collapse_attempt
+            # keep trying
           end
 
           # We now know what to collapse and what to remove, so we can start safely
           # modifying the tokens hash
+          apply_collapse
+        end
+
+        # :nodoc:
+        def collapse_attempt
+          regexp_safe_tokens = @tokens.keys.select { |s| Regexp.escape(s) == s }
+          single_tokens_to_consider = regexp_safe_tokens.first(@ranks_to_collapse + @to_remove.size - @to_collapse.size) - @to_remove.to_a
+          scan_text_for_all_permutations_of(single_tokens_to_consider) or return false
+          decide_what_to_collapse_and_what_to_remove
+          true
+        end
+
+        # :nodoc:
+        def apply_collapse
           @to_collapse.each do |perm|
             values = @tokens.values_at(*perm).compact
             # This might be empty if somehow the scanned permutation doesn't
@@ -124,6 +135,7 @@ module TextRank
 
             @tokens[perm.join(@delimiter)] = values.reduce(:+) / values.size
           end
+
           @tokens.reject! do |k, _|
             @to_remove.include?(k)
           end || @tokens
@@ -139,21 +151,24 @@ module TextRank
         # tokenization (e.g. ASCII folding).  That's okay.  We're just making the best effort we can
         # to find what we can.
         def scan_text_for_all_permutations_of(single_tokens)
-          perms = []
           # NOTE that by reversing the order we craft the regex to prefer larger combinations over
           # smaller combinations (or singletons).
-          (1..@max_tokens_to_combine).to_a.reverse.map do |nn|
-            single_tokens.permutation(nn).each do |perm|
-              unless @permutations_scanned.key?(perm)
-                @permutations_scanned[perm] = 0
-                perms << perm
-              end
-            end
+          perms = (1..@max_tokens_to_combine).to_a.reverse.flat_map do |n|
+            scan_text_for_n_permutations_of(single_tokens, n)
           end
           scan_text_for(perms) do |s|
             s = s.downcase if @ignore_case
             @permutations_scanned[s.split(delimiter_re)] += 1
           end unless perms.empty?
+        end
+
+        def scan_text_for_n_permutations_of(single_tokens, n)
+          single_tokens.permutation(n).map do |perm|
+            unless @permutations_scanned.key?(perm)
+              @permutations_scanned[perm] = 0
+              perm
+            end
+          end.compact
         end
 
         # Because we're scanning the original text, we've lost all of the character filtering we did
@@ -182,22 +197,27 @@ module TextRank
         # modifications to the original token list yet but just keep track of what we plan
         # to collapse/remove.
         def decide_what_to_collapse_and_what_to_remove
-          non_empty_ordered = @permutations_scanned.select do |_k, v|
+          tokens_encountered = []
+          permutations_to_consider_collapsing.each do |perm, perm_count|
+            if perm.size > 1
+              decide_to_collapse_or_remove(perm, perm_count, singles_to_remove: perm - tokens_encountered)
+            end
+            tokens_encountered += perm
+          end
+        end
+
+        def permutations_to_consider_collapsing
+          @permutations_scanned.select do |_k, v|
             v.positive?
           end.sort_by do |k, v|
             [-v, -k.size] # reverse order
           end
+        end
 
-          tokens_encountered = []
-          non_empty_ordered.each do |perm, perm_count|
-            if perm.size > 1
-              singles_to_remove = perm - tokens_encountered
-              if !singles_to_remove.empty? || combination_significant?(perm, perm_count)
-                @to_collapse << perm if perm.size > 1
-                @to_remove |= singles_to_remove
-              end
-            end
-            tokens_encountered += perm
+        def decide_to_collapse_or_remove(perm, perm_count, singles_to_remove:)
+          if !singles_to_remove.empty? || combination_significant?(perm, perm_count)
+            @to_collapse << perm if perm.size > 1
+            @to_remove |= singles_to_remove
           end
         end
 

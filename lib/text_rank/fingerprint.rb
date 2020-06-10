@@ -59,27 +59,21 @@ module TextRank
     # Calculates the "similarity" between this fingerprint and another
     # @param {Fingerprint} A second fingerprint to compare
     # @return [Number] A number between 0.0 (different) and 1.0 (same)
-    def similarity(trf2)
-      return 1.0 if values == trf2.values
+    def similarity(other)
+      return 1.0 if values == other.values # Short-circuit for efficiency
 
-      sim = 0
-      s1 = Set.new
-      s2 = Set.new
-
-      [size, trf2.size].max.times.reduce(0) do |sum, i|
-        v1 = values[i]
-        v2 = trf2.values[i]
-        if v1 == v2
-          sim += 1
-        else
-          s1.delete?(v2) ? (sim += 1) : (s2 << v2)
-          s2.delete?(v1) ? (sim += 1) : (s1 << v1)
-        end
-        sum + sim * linear_transform[i]
+      sum = 0
+      overlap(other).each_with_index do |overlap_value, i|
+        sum += overlap_value * linear_transform[i]
       end
+      sum
     end
 
     private
+
+    def overlap(other)
+      FingerprintOverlap.new(values, other.values).overlap
+    end
 
     def linear_transform
       @linear_transform ||= size.times.map do |i|

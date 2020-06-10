@@ -61,17 +61,25 @@ module TextRank
       # return [nil]
       def build_graph(tokens, graph)
         ngram_window = @ngram_size * 2 + 1
-        tokens.each_with_index do |token_i, i|
+        tokens.size.times do |i|
           ngram_window.times do |j|
-            next if j == @ngram_size || i + j < @ngram_size
-
-            token_j = tokens[i - @ngram_size + j]
-            if token_j
-              graph.add(token_i, token_j, weight: 1.0 / (j - @ngram_size).abs)
-            end
+            consider_ngram_window(tokens, graph, i, j)
           end
         end
         nil
+      end
+
+      private
+
+      def consider_ngram_window(tokens, graph, i, j)
+        return if j == @ngram_size || i + j < @ngram_size
+
+        token_i = tokens[i]
+        token_j = tokens[i - @ngram_size + j]
+
+        if token_j
+          graph.add(token_i, token_j, weight: 1.0 / (j - @ngram_size).abs)
+        end
       end
 
     end
