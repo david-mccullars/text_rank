@@ -1,4 +1,3 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'text_rank/version'
@@ -9,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['David McCullars']
   spec.email         = ['david.mccullars@gmail.com']
 
-  spec.summary       = %q{Implementation of TextRank solution to ranked keyword extraction}
-  spec.description   = %q{Implementation of TextRank solution to ranked keyword extraction.  See https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf}
+  spec.summary       = 'Implementation of TextRank solution to ranked keyword extraction'
+  spec.description   = 'Implementation of TextRank solution to ranked keyword extraction.  See https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf'
   spec.homepage      = 'https://github.com/david-mccullars/text_rank'
   spec.license       = 'MIT'
 
@@ -19,12 +18,12 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler',    '~> 1.11'
-  spec.add_development_dependency 'rake',       '~> 10.0'
-  spec.add_development_dependency 'rspec',      '~> 3.0'
-  spec.add_development_dependency 'simplecov',  '~> 0.11'
-  spec.add_development_dependency 'codeclimate-test-reporter'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'simplecov', '~> 0.17.0' # 0.18 not supported by code climate
 
-  spec.add_development_dependency 'engtagger',  '~> 0.2.0' # Optional runtime dependency but needed for specs
-  spec.add_development_dependency 'nokogiri',   '~> 1.0'   # Optional runtime dependency but needed for specs
+  spec.add_development_dependency 'engtagger' # Optional runtime dependency but needed for specs
+  spec.add_development_dependency 'nokogiri'  # Optional runtime dependency but needed for specs
 end

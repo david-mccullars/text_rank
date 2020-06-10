@@ -7,6 +7,7 @@
 
 ## Status
 
+[![Gem Version](https://badge.fury.io/rb/text_rank.svg)](https://badge.fury.io/rb/text_rank)
 [![Travis Build Status](https://travis-ci.org/david-mccullars/text_rank.svg?branch=master)](https://travis-ci.org/david-mccullars/text_rank)
 [![Code Climate](https://codeclimate.com/github/david-mccullars/text_rank/badges/gpa.svg)](https://codeclimate.com/github/david-mccullars/text_rank)
 [![Test Coverage](https://codeclimate.com/github/david-mccullars/text_rank/badges/coverage.svg)](https://codeclimate.com/github/david-mccullars/text_rank/coverage)
@@ -127,7 +128,7 @@ multiplication.  Each iteration is O(N^3) where N is the number of graph nodes.
 
 ## License
 
-MIT. See the `LICENSE.txt` file.
+MIT. See the `LICENSE` file.
 
 
 ## References
