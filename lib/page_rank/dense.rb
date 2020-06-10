@@ -32,6 +32,7 @@ module PageRank
     # @return (see Base#add)
     def add(source, dest, weight: 1.0)
       return if source == dest
+
       source_idx = index(source)
       dest_idx = index(dest)
       @out_links[source_idx] ||= []
@@ -72,7 +73,7 @@ module PageRank
 
     def to_matrix
       total_out_weights = @out_links.map do |links|
-        links.compact.reduce(:+) if links
+        links&.compact&.reduce(:+)
       end
       Matrix.build(node_count, node_count) do |dest_idx, source_idx|
         total = total_out_weights[source_idx]

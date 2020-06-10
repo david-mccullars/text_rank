@@ -1,5 +1,4 @@
 require 'engtagger'
-require 'set'
 
 module TextRank
   module TokenFilter

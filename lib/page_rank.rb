@@ -1,3 +1,5 @@
+require 'set'
+
 ##
 # A module for supporting Ruby implementations of PageRank. Rather than rely on
 # one single implementation, this module allows for multiple implementations that

@@ -1,4 +1,6 @@
 require 'page_rank'
+require 'set'
+require 'yaml'
 
 ##
 # Provides convenience methods for quickly extracting keywords.

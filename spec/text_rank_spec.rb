@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe TextRank do
-
   it 'has a version number' do
     expect(TextRank::VERSION).not_to be nil
   end
@@ -20,7 +19,7 @@ describe TextRank do
       k2 = %w[general jar ocean sea]
       expect(TextRank.similarity(k1, k2)).to eq(0.0)
     end
-      
+
     specify 'little overlap' do
       k1 = %w[town man empty found]
       k2 = %w[general ocean found jar]
@@ -50,5 +49,4 @@ describe TextRank do
       expect(TextRank.similarity(k1, k1)).to eq(1.0)
     end
   end
-
 end

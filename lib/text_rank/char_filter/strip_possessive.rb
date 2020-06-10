@@ -5,7 +5,7 @@ module TextRank
     #
     # = Example
     #
-    #  StripPosessive.new.filter!("to loathe one’s very being and yet to hold it fast")
+    #  StripPosessive.new.filter!("to loathe one's very being and yet to hold it fast")
     #  => "to loathe one very being and yet to hold it fast"
     ##
     class StripPossessive
@@ -15,7 +15,7 @@ module TextRank
       # @return [String]
       def filter!(text)
         text.gsub!(/([a-z]+)'s\b/) do
-          $1
+          Regexp.last_match(1)
         end
       end
 

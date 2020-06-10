@@ -45,8 +45,9 @@ module TextRank
       # @return [Hash<String, Float>]
       def filter!(ranks, **_)
         return if ranks.empty?
+
         total = Math.sqrt(ranks.values.map { |v| v * v }.reduce(:+))
-        Hash[ranks.map { |k, v| [k, v / total] }]
+        ranks.transform_values { |v| v / total }
       end
 
     end

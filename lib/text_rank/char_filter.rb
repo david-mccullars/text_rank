@@ -7,7 +7,7 @@ module TextRank
   # converting non-ascii characters to related ascii characters, forcing text to
   # lower case, stripping out HTML, converting English contractions (e.g. "won't")
   # to the non-contracted form ("will not"), and more.
-  # 
+  #
   # Character filters are applied as a chain, so care should be taken to use them
   # in the desired order.
   ##

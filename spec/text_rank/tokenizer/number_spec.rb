@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'TextRank::Tokenizer::Number' do
-
   %w[
     453231162
     453231162.0
@@ -29,5 +28,4 @@ describe 'TextRank::Tokenizer::Number' do
       expect(s.scan(TextRank::Tokenizer::Number)).to_not eq([[s]])
     end
   end
-
 end

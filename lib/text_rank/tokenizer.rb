@@ -31,7 +31,7 @@ module TextRank
       tokens = []
       text.scan(Regexp.new(regular_expressions.flatten.join('|'))) do |matches|
         m = matches.compact.first
-        tokens << m if m && m.size > 0
+        tokens << m if m&.size&.positive?
       end
       tokens
     end

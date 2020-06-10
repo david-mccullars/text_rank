@@ -1,11 +1,11 @@
-#encoding: UTF-8
 module TextRank
   module Tokenizer
 
     ##
     # A tokenizer regex that preserves (optionally formatted) numbers as a single token.
     ##
-    Number = %r{
+    # rubocop:disable Naming/ConstantName
+    Number = /
       (
         [1-9]\d{3,}       # 453231162
         (?:\.\d+)?        # 453231162.17
@@ -25,7 +25,8 @@ module TextRank
 
         (?:\.\d+)         # .17
       )
-    }x
+    /x
+    # rubocop:enable Naming/ConstantName
 
   end
 end

@@ -1,5 +1,3 @@
-require 'set'
-
 module TextRank
   ##
   # Class used to compare documents according to TextRank. A "fingerprint"

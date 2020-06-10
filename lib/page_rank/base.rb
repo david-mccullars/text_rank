@@ -19,8 +19,7 @@ module PageRank
     # @return [Float]
     def damping=(damping)
       @damping = damping || 0.85
-      raise ArgumentError.new('Invalid damping factor') if @damping <= 0 || @damping > 1
-      @damping
+      raise ArgumentError, 'Invalid damping factor' if @damping <= 0 || @damping > 1
     end
 
     # Set the tolerance value
@@ -28,8 +27,7 @@ module PageRank
     # @return [Float]
     def tolerance=(tolerance)
       @tolerance = tolerance || 0.0001
-      raise ArgumentError.new('Invalid tolerance factor') if @tolerance < 0 || @tolerance > 1
-      @tolerance
+      raise ArgumentError, 'Invalid tolerance factor' if @tolerance.negative? || @tolerance > 1
     end
 
     # Adds a directed (and optionally weighted) edge to the graph
@@ -46,9 +44,12 @@ module PageRank
     def calculate(max_iterations: -1, **_)
       ranks = initial_ranks
       loop do
-        break if max_iterations == 0
-        ranks, prev_ranks = calculate_step(ranks), ranks
+        break if max_iterations.zero?
+
+        prev_ranks = ranks
+        ranks = calculate_step(ranks)
         break if distance(ranks, prev_ranks) < @tolerance
+
         max_iterations -= 1
       end
       sort_ranks(ranks)
@@ -77,9 +78,9 @@ module PageRank
     end
 
     # Calculate the Euclidean distance from one ranking to the next iteration
-    def distance(v1, v2)
+    def distance(vector1, vector2)
       sum_squares = node_count.times.reduce(0.0) do |sum, i|
-        d = v1[i] - v2[i]
+        d = vector1[i] - vector2[i]
         sum + d * d
       end
       Math.sqrt(sum_squares)

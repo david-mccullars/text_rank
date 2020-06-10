@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe PageRank do
-
   %w[dense sparse].each do |strategy|
-
     specify "calculate with #{strategy} matrix (node size 5)" do
       ranks = subject.calculate(strategy: strategy, damping: 0.8, tolerance: 0.0000001) do
         add('A', 'B')
@@ -75,11 +73,9 @@ describe PageRank do
         expect(ranks[k]).to be_within(0.00001).of(v)
       end
     end
-
   end
 
-  context "not implemented errors" do
-
+  context 'not implemented errors' do
     subject { PageRank::Base.new }
 
     specify '#add' do
@@ -101,7 +97,5 @@ describe PageRank do
     specify '#calculate_step' do
       expect { subject.send(:calculate_step, nil) }.to raise_error(NotImplementedError)
     end
-
   end
-
 end

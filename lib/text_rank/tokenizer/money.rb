@@ -1,4 +1,3 @@
-#encoding: UTF-8
 module TextRank
   module Tokenizer
 
@@ -12,7 +11,7 @@ module TextRank
       "\u20a4", # Lira Symbol
       "\u20a7", # Peseta Sign
       "\u20ac", # Euro Symbol
-      "\u20B9", # Rupee 
+      "\u20B9", # Rupee
       "\u20a9", # Won Sign
       "\u20b4", # Hryvnia Sign
       "\u20af", # Drachma Sign
@@ -33,6 +32,8 @@ module TextRank
     ##
     # A tokenizer regex that preserves money or formatted numbers as a single token. This
     # currently supports 24 different currency symbols:
+    #
+    # rubocop:disable Style/AsciiComments
     #
     # * ¤
     # * $
@@ -58,19 +59,23 @@ module TextRank
     # * ₫
     # * %
     # * ‰
+
+    # rubocop:enable Style/AsciiComments
     #
     # It also supports two alternative formats for negatives as well as optional three digit comma
     # separation and optional decimals.
     ##
-    Money = %r{
+    # rubocop:disable Naming/ConstantName
+    Money = /
       (
-        #{CURRENCY_SYMBOLS} \-? #{Number}      # $-45,231.21
+        #{CURRENCY_SYMBOLS} -? #{Number}       # $-45,231.21
         |
-        \-? #{CURRENCY_SYMBOLS} #{Number}      # -$45,231.21
+        -? #{CURRENCY_SYMBOLS} #{Number}       # -$45,231.21
         |
         \( #{CURRENCY_SYMBOLS} #{Number} \)    # ($45,231.21)
       )
-    }x
+    /x
+    # rubocop:enable Naming/ConstantName
 
   end
 end

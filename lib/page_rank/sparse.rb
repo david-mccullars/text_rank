@@ -1,5 +1,3 @@
-require 'set'
-
 module PageRank
   ##
   # Implementation of PageRank using a sparse matrix representation of the graph
@@ -33,6 +31,7 @@ module PageRank
     # @return (see Base#add)
     def add(source, dest, weight: 1.0)
       return false if source == dest
+
       @graph[dest] ||= Set.new
       @graph[dest] << source
       @weights[source] ||= Hash.new(0.0)
@@ -53,8 +52,8 @@ module PageRank
     def initial_ranks
       @dangling_nodes = @nodes - @weight_totals.keys
       @normalized_weights = @weights.each_with_object({}) do |(source, values), h|
-        h[source] = values.each_with_object({}) do |(dest, w), h2| 
-          h2[dest] = w / @weight_totals[source]
+        h[source] = values.transform_values do |w|
+          w / @weight_totals[source]
         end
       end
       Hash[@nodes.map { |k| [k, 1.0 / node_count.to_f] }]
@@ -69,7 +68,7 @@ module PageRank
         @dangling_nodes.each do |source|
           sum += ranks[source] / node_count.to_f
         end
-        new_ranks[dest] = @damping * sum + (1 - @damping)/node_count
+        new_ranks[dest] = @damping * sum + (1 - @damping) / node_count
       end
     end
 
@@ -79,8 +78,8 @@ module PageRank
       Hash[ranks.map { |k, v| [k, v / sum] }.sort_by { |_, v| -v }]
     end
 
-    def distance(v1, v2)
-      super(v1.values.to_a, v2.values.to_a)
+    def distance(vector1, vector2)
+      super(vector1.values.to_a, vector2.values.to_a)
     end
 
   end

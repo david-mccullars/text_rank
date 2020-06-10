@@ -77,6 +77,7 @@ module TextRank
 
       class TokenCollapser
 
+        # rubocop:disable Metrics/ParameterLists
         def initialize(tokens:, text:, ranks_to_collapse: 10, max_tokens_to_combine: 2, ignore_case: true, delimiter: ' ', **_)
           @tokens = tokens
           @text = text
@@ -91,6 +92,7 @@ module TextRank
           @permutations_scanned = Hash.new(0.0) # Track how many occurrences of each permutation we found in the original text
           @combination_significance_threshold = 0.3 # The percent of occurrences of a combo of tokens to the occurrences of single tokens required to force collapsing
         end
+        # rubocop:enable Metrics/ParameterLists
 
         # :nodoc:
         def delimiter_re
@@ -119,6 +121,7 @@ module TextRank
             # exactly match one of the tokens (e.g. ASCII-folding gone awry).
             # The goal is to do the best we can, so if we can't find it, ignore.
             next if values.empty?
+
             @tokens[perm.join(@delimiter)] = values.reduce(:+) / values.size
           end
           @tokens.reject! do |k, _|
@@ -179,8 +182,8 @@ module TextRank
         # modifications to the original token list yet but just keep track of what we plan
         # to collapse/remove.
         def decide_what_to_collapse_and_what_to_remove
-          non_empty_ordered = @permutations_scanned.select do |k, v|
-            v > 0
+          non_empty_ordered = @permutations_scanned.select do |_k, v|
+            v.positive?
           end.sort_by do |k, v|
             [-v, -k.size] # reverse order
           end

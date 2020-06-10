@@ -64,6 +64,7 @@ module TextRank
         tokens.each_with_index do |token_i, i|
           ngram_window.times do |j|
             next if j == @ngram_size || i + j < @ngram_size
+
             token_j = tokens[i - @ngram_size + j]
             if token_j
               graph.add(token_i, token_j, weight: 1.0 / (j - @ngram_size).abs)
