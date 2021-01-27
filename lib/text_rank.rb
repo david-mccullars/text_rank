@@ -20,7 +20,7 @@ module TextRank
   autoload :VERSION,            'text_rank/version'
 
   # A convenience method for quickly extracting keywords from text with default options
-  # @param text [String] text from which to extract keywords
+  # @param text [String,Array<String>] text from which to extract keywords
   # @option (see KeywordExtractor.basic)
   # @return [Hash<String, Float>] of tokens and text rank (in descending order)
   def self.extract_keywords(text, **options)

@@ -5,8 +5,12 @@ describe TextRank do
     expect(TextRank::VERSION).not_to be nil
   end
 
-  specify 'TextRank.extract_keywords' do
+  specify 'TextRank.extract_keywords(String)' do
     expect(TextRank.extract_keywords('The man went to town and found the town empty').keys).to eq(%w[went town man])
+  end
+
+  specify 'TextRank.extract_keywords(Array)' do
+    expect(TextRank.extract_keywords(['The man went to town and found the town empty', 'Apples and Oranges.', 'The town had apples.']).keys).to eq(%w[town went apples man oranges])
   end
 
   specify 'TextRank.extract_keywords_advanced' do

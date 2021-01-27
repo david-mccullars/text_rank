@@ -97,6 +97,44 @@ describe TextRank::KeywordExtractor do
     end
   end
 
+  it 'extracts from array of text' do
+    ranks = TextRank::KeywordExtractor.new.extract([<<~TEST1, <<~TEST2, <<~TEST3])
+      In a castle of Westphalia, belonging to the Baron of Thunder-ten-Tronckh, lived
+      a youth, whom nature had endowed with the most gentle manners.
+    TEST1
+      His countenance was a true picture of his soul. He combined a true judgment
+      with simplicity of spirit, which was the reason, I apprehend, of his being
+      called Candide.
+    TEST2
+      The old servants of the family suspected him to have been the son of the
+      Baron's sister, by a good, honest gentleman of the neighborhood, whom that
+      young lady would never marry because he had been able to prove only seventy-one
+      quarterings, the rest of his genealogical tree having been lost through the
+      injuries of time.
+    TEST3
+    # These numbers should be slightly different than if we concatenated the strings
+    # together because we will avoid building graph edges between the boundary tokens
+    # (those tokens at the beginning or end of each text in the array).
+    # We expect to get close to this (but not exact)
+    {
+      'of'                  => 0.08111182819064046,
+      'the'                 => 0.07321447571708903,
+      'a'                   => 0.04162826286773359,
+      'his'                 => 0.026669570973517784,
+      'been'                => 0.02628220013248464,
+      'to'                  => 0.02589186762286176,
+      'whom'                => 0.01884269632501968,
+      'had'                 => 0.018692069918838462,
+      'with'                => 0.01818822350109298,
+      'true'                => 0.01777124221769915,
+      'was'                 => 0.01771751823245395,
+      'Baron'               => 0.017189650358858617,
+      # Testing the first 12 is sufficient for this spec
+    }.each do |k, v|
+      expect(ranks[k]).to be_within(0.0001).of(v)
+    end
+  end
+
   it 'advanced tokenizer' do
     extractor = TextRank::KeywordExtractor.advanced
     tokens = extractor.tokenize(<<~TEST)
