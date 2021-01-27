@@ -103,14 +103,23 @@ module TextRank
     end
 
     # Filter & tokenize text, and return PageRank
-    # @param text [String] unfiltered text to be processed
+    # @param text [String,Array<String>] unfiltered text to be processed
     # @return [Hash<String, Float>] tokens and page ranks (in descending order)
     def extract(text, **options)
-      tokens = tokenize(text)
+      text = Array(text)
+      tokens_per_text = text.map do |t|
+        tokenize(t)
+      end
       graph = PageRank.new(**@page_rank_options)
-      classify(@graph_strategy, context: GraphStrategy).build_graph(tokens, graph)
+      strategy = classify(@graph_strategy, context: GraphStrategy)
+      tokens_per_text.each do |tokens|
+        strategy.build_graph(tokens, graph)
+      end
       ranks = graph.calculate(**options)
-      apply_rank_filters(ranks, tokens: tokens, original_text: text)
+      tokens_per_text.each_with_index do |tokens, i|
+        ranks = apply_rank_filters(ranks, tokens: tokens, original_text: text[i])
+      end
+      ranks
     end
 
     private
