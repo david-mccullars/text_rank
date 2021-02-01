@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe PageRank do
-  %w[dense sparse].each do |strategy|
+  %w[dense sparse sparse_native].each do |strategy|
     specify "calculate with #{strategy} matrix (node size 5)" do
       ranks = subject.calculate(strategy: strategy, damping: 0.8, tolerance: 0.0000001) do
         add('A', 'B')
