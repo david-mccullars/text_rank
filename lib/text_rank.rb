@@ -40,3 +40,5 @@ module TextRank
   end
 
 end
+
+require 'text_rank/text_rank'

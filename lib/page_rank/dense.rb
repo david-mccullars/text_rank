@@ -79,7 +79,7 @@ module PageRank
         total = total_out_weights[source_idx]
         if total
           w = @out_links[source_idx][dest_idx] || 0.0
-          @damping * w / total + (1 - @damping) / node_count.to_f
+          damping * w / total + (1 - damping) / node_count.to_f
         else
           1.0 / node_count.to_f
         end

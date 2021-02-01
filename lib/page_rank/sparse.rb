@@ -68,7 +68,7 @@ module PageRank
         @dangling_nodes.each do |source|
           sum += ranks[source] / node_count.to_f
         end
-        new_ranks[dest] = @damping * sum + (1 - @damping) / node_count
+        new_ranks[dest] = damping * sum + (1 - damping) / node_count
       end
     end
 

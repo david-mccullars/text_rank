@@ -17,16 +17,17 @@ require 'set'
 ##
 module PageRank
 
-  autoload :Base,   'page_rank/base'
-  autoload :Dense,  'page_rank/dense'
-  autoload :Sparse, 'page_rank/sparse'
+  autoload :Base,         'page_rank/base'
+  autoload :Dense,        'page_rank/dense'
+  autoload :Sparse,       'page_rank/sparse'
+  autoload :SparseNative, 'page_rank/sparse_native'
 
   # @option options [Symbol] :strategy PageRank strategy to use (either :sparse or :dense)
   # @option options [Float]  :damping The probability of following the graph vs. randomly choosing a new node
   # @option options [Float]  :tolerance The desired accuracy of the results
   # @return [PageRank::Base]
   def self.new(strategy: :sparse, **options)
-    const_get(strategy.to_s.capitalize).new(**options)
+    const_get(strategy.to_s.split('_').map(&:capitalize).join).new(**options)
   end
 
   # Convenience method to quickly calculate PageRank. In the calling block, graph edges can be added.

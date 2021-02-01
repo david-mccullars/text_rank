@@ -7,6 +7,8 @@ module PageRank
   ##
   class Base
 
+    attr_reader :damping, :tolerance
+
     # @param (see #damping=)
     # @param (see #tolerance=)
     def initialize(damping: nil, tolerance: nil, **_)
@@ -48,7 +50,7 @@ module PageRank
 
         prev_ranks = ranks
         ranks = calculate_step(ranks)
-        break if distance(ranks, prev_ranks) < @tolerance
+        break if distance(ranks, prev_ranks) < tolerance
 
         max_iterations -= 1
       end
