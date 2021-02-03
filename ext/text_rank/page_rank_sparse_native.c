@@ -31,11 +31,14 @@ void Init_sparse_native() {
 
 VALUE sparse_native_allocate(VALUE self) {
   Graph g = malloc(GRAPH_SIZE);
+  //st_table *tmp, *node_lookup;
+
+  const struct st_hash_type *objhash = rb_hash_tbl(rb_hash_new())->type;
 
   g->node_count = 0;
   g->nodes = NULL;
   g->dangling_nodes = NULL;
-  g->node_lookup = rb_hash_tbl(rb_hash_new());
+  g->node_lookup = st_init_table_with_size(objhash, 0);
 
   return TypedData_Wrap_Struct(self, &graph_typed_data, g);
 }
@@ -70,7 +73,7 @@ void free_graph(void *data) {
   Graph g = (Graph)data;
   free_node_list(g->nodes, free_node);
   free_node_list(g->dangling_nodes, NULL);
-  // node_lookup allocated by rb_hash_tbl
+  free(g->node_lookup);
   free(g);
 }
 
