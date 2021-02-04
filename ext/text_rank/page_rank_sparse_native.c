@@ -31,8 +31,12 @@ void Init_sparse_native() {
 
 VALUE sparse_native_allocate(VALUE self) {
   Graph g = malloc(GRAPH_SIZE);
-  //st_table *tmp, *node_lookup;
 
+  // Grab a reference to the hash type used by a generic Ruby {}
+  // which accepts any key and any value.  We'll need this type to create
+  // a st_table in which to put arbitrary VALUE keys.  This hash type
+  // should be a static constant and thus should be safe to utilize without
+  // fear of garbage collection.
   const struct st_hash_type *objhash = rb_hash_tbl(rb_hash_new())->type;
 
   g->node_count = 0;
