@@ -16,7 +16,7 @@ engines:
     - 4218049e28199ed950d3cd721df86dce
     - c8179d0de3a9df18a2c45750d3f8647e
     - 03f6eee11d86507da564695007106721
-    channel: rubocop-0-85
+    channel: rubocop-1-23-0
 ratings:
   paths:
   - "**.rb"

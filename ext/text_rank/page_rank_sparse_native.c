@@ -37,7 +37,7 @@ VALUE sparse_native_allocate(VALUE self) {
   // a st_table in which to put arbitrary VALUE keys.  This hash type
   // should be a static constant and thus should be safe to utilize without
   // fear of garbage collection.
-  const struct st_hash_type *objhash = rb_hash_tbl(rb_hash_new())->type;
+  const struct st_hash_type *objhash = rb_hash_tbl(rb_hash_new(), "page_rank_sparse_native.c", 40)->type;
 
   g->node_count = 0;
   g->nodes = NULL;
