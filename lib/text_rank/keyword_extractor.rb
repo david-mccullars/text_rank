@@ -71,7 +71,6 @@ module TextRank
     end
 
     # Sets the graph strategy for producing a graph from tokens
-    # @param strategy [Class, Symbol, #build_graph] Strategy for producing a graph from tokens
     # @return [Class, Symbol, #build_graph]
     attr_writer :graph_strategy
 

@@ -1,0 +1,6 @@
+--readme README.md
+--title 'TextRank Documentation'
+--charset utf-8
+--markup-provider=redcarpet
+--markup markdown
+'lib/**/*.rb' - '*.md'

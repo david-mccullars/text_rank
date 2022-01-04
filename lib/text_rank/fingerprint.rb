@@ -57,7 +57,7 @@ module TextRank
     end
 
     # Calculates the "similarity" between this fingerprint and another
-    # @param {Fingerprint} A second fingerprint to compare
+    # @param {Fingerprint} other A second fingerprint to compare
     # @return [Number] A number between 0.0 (different) and 1.0 (same)
     def similarity(other)
       return 1.0 if values == other.values # Short-circuit for efficiency
