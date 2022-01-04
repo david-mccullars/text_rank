@@ -87,9 +87,8 @@ void free_node(Node n) {
 }
 
 void free_node_list(NodeList nodes, void (*free_item)(Node)) {
-  NodeList tmp;
   while (nodes != NULL) {
-    tmp = nodes;
+    NodeList tmp = nodes;
     nodes = nodes->next;
     if (free_item) {
       free_item(tmp->node);
@@ -104,9 +103,8 @@ void free_edge(Edge e) {
 }
 
 void free_edge_list(EdgeList edges, void (*free_item)(Edge)) {
-  EdgeList tmp;
   while (edges != NULL) {
-    tmp = edges;
+    EdgeList tmp = edges;
     edges = edges->next;
     if (free_item) {
       free_item(tmp->edge);
@@ -211,7 +209,6 @@ void calculate_step(Graph g, double damping) {
   Node source, destination;
   EdgeList edges;
   Edge e;
-  double sum;
 
   // Set prev rank to rank for all nodes
   for (nodes = g->nodes; nodes != NULL; nodes = nodes->next) {
@@ -222,7 +219,7 @@ void calculate_step(Graph g, double damping) {
   // Re-destribute the rankings according to weight
   for (nodes = g->nodes; nodes != NULL; nodes = nodes->next) {
     destination = nodes->node;
-    sum = 0.0;
+    double sum = 0.0;
     for (edges = destination->source_edges; edges != NULL; edges = edges->next) {
       e = edges->edge;
       source = e->source;
@@ -238,13 +235,11 @@ void calculate_step(Graph g, double damping) {
 
 // Calculate the Euclidean distance from prev_rank to rank across all nodes
 double prev_distance(Graph g) {
-  NodeList nodes;
-  Node n;
-  double rank_diff, sum_squares = 0.0;
+  double sum_squares = 0.0;
 
-  for (nodes = g->nodes; nodes != NULL; nodes = nodes->next) {
-    n = nodes->node;
-    rank_diff = n->prev_rank - n->rank;
+  for (NodeList nodes = g->nodes; nodes != NULL; nodes = nodes->next) {
+    Node n = nodes->node;
+    double rank_diff = n->prev_rank - n->rank;
     sum_squares += rank_diff * rank_diff;
   }
 
@@ -264,11 +259,9 @@ void calculate(Graph g, int max_iterations, double damping, double tolerance) {
 }
 
 int node_compare(const void *v1, const void *v2) {
-  double rank1, rank2, cmp;
-
-  rank1 = (*(Node *)v1)->rank;
-  rank2 = (*(Node *)v2)->rank;
-  cmp = rank2 - rank1; // Decreasing order
+  double rank1 = (*(Node *)v1)->rank;
+  double rank2 = (*(Node *)v2)->rank;
+  double cmp = rank2 - rank1; // Decreasing order
   if (cmp < 0) return -1;
   if (cmp > 0) return 1;
   return 0;
