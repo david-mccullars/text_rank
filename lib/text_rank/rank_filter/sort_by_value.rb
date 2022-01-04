@@ -14,7 +14,7 @@ module TextRank
       # @param ranks [Hash<String, Float>] the results of the PageRank algorithm
       # @return [Hash<String, Float>]
       def filter!(ranks, **_)
-        Hash[ranks.sort_by { |_, v| @descending ? -v : v }]
+        ranks.sort_by { |_, v| @descending ? -v : v }.to_h
       end
 
     end

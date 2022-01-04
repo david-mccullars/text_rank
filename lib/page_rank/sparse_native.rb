@@ -1,7 +1,7 @@
 module PageRank
   class SparseNative < Base
 
-    #require 'page_rank/sparse_native.so'
+    # require 'page_rank/sparse_native.so'
 
     # @param (see Base#add)
     # @param weight [Float] Optional weight for the graph edge

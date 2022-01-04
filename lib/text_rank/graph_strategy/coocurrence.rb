@@ -60,7 +60,7 @@ module TextRank
       # @param graph [PageRank::Base] a PageRank graph into which to add nodes/edges
       # return [nil]
       def build_graph(tokens, graph)
-        ngram_window = @ngram_size * 2 + 1
+        ngram_window = (@ngram_size * 2) + 1
         tokens.size.times do |i|
           ngram_window.times do |j|
             consider_ngram_window(tokens, graph, i, j)
@@ -71,14 +71,14 @@ module TextRank
 
       private
 
-      def consider_ngram_window(tokens, graph, i, j)
-        return if j == @ngram_size || i + j < @ngram_size
+      def consider_ngram_window(tokens, graph, idx_i, idx_j)
+        return if idx_j == @ngram_size || idx_i + idx_j < @ngram_size
 
-        token_i = tokens[i]
-        token_j = tokens[i - @ngram_size + j]
+        token_i = tokens[idx_i]
+        token_j = tokens[idx_i - @ngram_size + idx_j]
 
         if token_j
-          graph.add(token_i, token_j, weight: 1.0 / (j - @ngram_size).abs)
+          graph.add(token_i, token_j, weight: 1.0 / (idx_j - @ngram_size).abs)
         end
       end
 

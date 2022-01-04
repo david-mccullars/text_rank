@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe TextRank::KeywordExtractor do
+  let(:custom_rank_filter_class) do
+    Class.new do
+      def filter!(ranks, **)
+        ranks.merge!('Extra' => 1.0)
+      end
+    end
+  end
+
   it 'extracts with Whitespace only' do
     ranks = TextRank::KeywordExtractor.new.extract(<<~TEST)
       In a castle of Westphalia, belonging to the Baron of Thunder-ten-Tronckh, lived
@@ -117,18 +125,18 @@ describe TextRank::KeywordExtractor do
     # (those tokens at the beginning or end of each text in the array).
     # We expect to get close to this (but not exact)
     {
-      'of'                  => 0.08111182819064046,
-      'the'                 => 0.07321447571708903,
-      'a'                   => 0.04162826286773359,
-      'his'                 => 0.026669570973517784,
-      'been'                => 0.02628220013248464,
-      'to'                  => 0.02589186762286176,
-      'whom'                => 0.01884269632501968,
-      'had'                 => 0.018692069918838462,
-      'with'                => 0.01818822350109298,
-      'true'                => 0.01777124221769915,
-      'was'                 => 0.01771751823245395,
-      'Baron'               => 0.017189650358858617,
+      'of'    => 0.08111182819064046,
+      'the'   => 0.07321447571708903,
+      'a'     => 0.04162826286773359,
+      'his'   => 0.026669570973517784,
+      'been'  => 0.02628220013248464,
+      'to'    => 0.02589186762286176,
+      'whom'  => 0.01884269632501968,
+      'had'   => 0.018692069918838462,
+      'with'  => 0.01818822350109298,
+      'true'  => 0.01777124221769915,
+      'was'   => 0.01771751823245395,
+      'Baron' => 0.017189650358858617,
       # Testing the first 12 is sufficient for this spec
     }.each do |k, v|
       expect(ranks[k]).to be_within(0.0001).of(v)
@@ -201,14 +209,6 @@ describe TextRank::KeywordExtractor do
                          ])
   end
 
-  class CustomRankFilter
-
-    def filter!(ranks, **)
-      ranks.merge!('Extra' => 1.0)
-    end
-
-  end
-
   specify 'customize filters' do
     extractor = TextRank::KeywordExtractor.new
     extractor.graph_strategy = TextRank::GraphStrategy::Coocurrence.new(ngram_size: 2)
@@ -217,7 +217,7 @@ describe TextRank::KeywordExtractor do
     extractor.add_tokenizer :Punctuation
     extractor.add_token_filter :MinLength
     extractor.add_token_filter :Stopwords, at: 0
-    extractor.add_rank_filter(CustomRankFilter.new)
+    extractor.add_rank_filter(custom_rank_filter_class.new)
     expect(extractor.extract('Apple orange&apos;s <h1>a Grape</h1>').keys).to match_array(%w[Apple orange Grape Extra])
   end
 end

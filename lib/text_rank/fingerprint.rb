@@ -83,7 +83,7 @@ module TextRank
 
     def norm_factor
       @norm_factor ||= size.times.reduce(0.0) do |s, i|
-        s + (i + 1) / Math.log(i + 2) / size.to_f
+        s + ((i + 1) / Math.log(i + 2) / size.to_f)
       end
     end
 

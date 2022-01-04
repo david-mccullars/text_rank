@@ -83,7 +83,7 @@ module PageRank
     def distance(vector1, vector2)
       sum_squares = node_count.times.reduce(0.0) do |sum, i|
         d = vector1[i] - vector2[i]
-        sum + d * d
+        sum + (d * d)
       end
       Math.sqrt(sum_squares)
     end

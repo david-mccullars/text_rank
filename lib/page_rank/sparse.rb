@@ -56,7 +56,7 @@ module PageRank
           w / @weight_totals[source]
         end
       end
-      Hash[@nodes.map { |k| [k, 1.0 / node_count.to_f] }]
+      @nodes.to_h { |k| [k, 1.0 / node_count.to_f] }
     end
 
     def calculate_step(ranks)
@@ -68,14 +68,14 @@ module PageRank
         @dangling_nodes.each do |source|
           sum += ranks[source] / node_count.to_f
         end
-        new_ranks[dest] = damping * sum + (1 - damping) / node_count
+        new_ranks[dest] = (damping * sum) + ((1 - damping) / node_count)
       end
     end
 
     def sort_ranks(ranks)
       sum = 0.0
       ranks.each { |_, v| sum += v }
-      Hash[ranks.map { |k, v| [k, v / sum] }.sort_by { |_, v| -v }]
+      ranks.map { |k, v| [k, v / sum] }.sort_by { |_, v| -v }.to_h
     end
 
     def distance(vector1, vector2)

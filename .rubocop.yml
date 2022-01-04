@@ -1,142 +1,202 @@
 AllCops:
   Exclude:
-    - text_rank.gemspec
-    - Rakefile
-
+  - ext/**/*
+  - tmp/**/*
+  - vendor/**/*
+Gemspec/DateAssignment:
+  Enabled: true
+Gemspec/RequireMFA:
+  Enabled: true
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
-
 Layout/EmptyLinesAroundClassBody:
   EnforcedStyle: empty_lines_except_namespace
-
 Layout/EmptyLinesAroundModuleBody:
   EnforcedStyle: empty_lines_except_namespace
-
 Layout/ExtraSpacing:
   Enabled: false
-
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
   EnforcedColonStyle: table
-
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
 Layout/LineLength:
   Max: 120
   Enabled: false
-
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
-
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+Lint/AmbiguousAssignment:
+  Enabled: true
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+Lint/AmbiguousRange:
+  Enabled: true
+Lint/DeprecatedConstants:
+  Enabled: true
 Lint/DeprecatedOpenSSLConstant:
   Enabled: true
-
+Lint/DuplicateBranch:
+  Enabled: true
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+Lint/EmptyBlock:
+  Enabled: true
+Lint/EmptyClass:
+  Enabled: true
+Lint/EmptyInPattern:
+  Enabled: true
+Lint/IncompatibleIoSelectWithFiberScheduler:
+  Enabled: true
+Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
 Lint/MixedRegexpCaptureTypes:
   Enabled: true
-
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+Lint/NumberedParameterAssignment:
+  Enabled: true
+Lint/OrAssignmentToConstant:
+  Enabled: true
 Lint/RaiseException:
   Enabled: true
-
+Lint/RedundantDirGlobSort:
+  Enabled: true
+Lint/RequireRelativeSelfPath:
+  Enabled: true
 Lint/StructNewOverride:
   Enabled: true
-
+Lint/SymbolConversion:
+  Enabled: true
+Lint/ToEnumArguments:
+  Enabled: true
+Lint/TripleQuotes:
+  Enabled: true
+Lint/UnexpectedBlockArity:
+  Enabled: true
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+Lint/UselessRuby2Keywords:
+  Enabled: true
 Metrics/AbcSize:
   Max: 50
   Enabled: false
-
 Metrics/BlockLength:
   Max: 50
   Enabled: false
-
 Metrics/ClassLength:
   Max: 50
   Enabled: false
-
 Metrics/CyclomaticComplexity:
   Max: 30
   Enabled: false
-
 Metrics/MethodLength:
   Max: 20
   Enabled: false
-
 Metrics/ModuleLength:
   Max: 1000
   Enabled: false
-
 Metrics/PerceivedComplexity:
   Max: 30
   Enabled: false
-
+Naming/BlockForwarding:
+  Enabled: true
+Security/IoMethods:
+  Enabled: true
 Security/MarshalLoad:
   Enabled: false
-
 Style/AndOr:
   Enabled: false
-
+Style/ArgumentsForwarding:
+  Enabled: true
 Style/CaseEquality:
   Enabled: false
-
+Style/CollectionCompact:
+  Enabled: true
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
 Style/Documentation:
   Enabled: false
-
 Style/DoubleNegation:
   Enabled: false
-
+Style/EndlessMethod:
+  Enabled: true
 Style/ExponentialNotation:
   Enabled: true
-
+Style/FileRead:
+  Enabled: true
+Style/FileWrite:
+  Enabled: true
 Style/FrozenStringLiteralComment:
   Enabled: false
-
 Style/GuardClause:
   Enabled: false
-
+Style/HashConversion:
+  Enabled: true
 Style/HashEachMethods:
   Enabled: true
-
+Style/HashExcept:
+  Enabled: true
 Style/HashSyntax:
   Enabled: true
-
 Style/HashTransformKeys:
   Enabled: true
-
 Style/HashTransformValues:
   Enabled: true
-
 Style/IfUnlessModifier:
   Enabled: false
-
+Style/IfWithBooleanLiteralBranches:
+  Enabled: true
+Style/InPatternThen:
+  Enabled: true
+Style/MapToHash:
+  Enabled: true
 Style/MultilineBlockChain:
   Enabled: false
-
 Style/MultilineIfModifier:
   Enabled: false
-
+Style/MultilineInPatternThen:
+  Enabled: true
 Style/MutableConstant:
   Enabled: false
-
+Style/NegatedIfElseCondition:
+  Enabled: true
+Style/NilLambda:
+  Enabled: true
+Style/NumberedParameters:
+  Enabled: true
+Style/NumberedParametersLimit:
+  Enabled: true
+Style/OpenStructUse:
+  Enabled: true
+Style/QuotedSymbols:
+  Enabled: true
+Style/RedundantArgument:
+  Enabled: true
 Style/RedundantRegexpCharacterClass:
   Enabled: true
-
 Style/RedundantRegexpEscape:
   Enabled: true
-
+Style/RedundantSelfAssignmentBranch:
+  Enabled: true
 Style/RescueModifier:
   Enabled: false
-
 Style/RescueStandardError:
   Enabled: false
-
+Style/SelectByRegexp:
+  Enabled: true
 Style/SlicingWithRange:
   Enabled: true
-
+Style/StringChars:
+  Enabled: true
+Style/SwapValues:
+  Enabled: true
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
-
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
-
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
-
 Style/ZeroLengthPredicate:
   Enabled: false

@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe TextRank::RankFilter::CollapseAdjacent do
-  EXAMPLE_TEXT = <<~TEST
+  let(:example_text) { <<~TEST }
     Candide and his valet had got beyond the barrier, before it was known in the camp that the German Jesuit was dead. The wary Cacambo had taken care to fill his wallet with bread, chocolate, bacon, fruit, and a few bottles of wine. With their Andalusian horses they penetrated into an unknown country, where they perceived no beaten track. At length they came to a beautiful meadow intersected with purling rills. Here our two adventurers fed their horses. Cacambo proposed to his master to take some food, and he set him an example.
-    
+
     "How can you ask me to eat ham," said Candide, "after killing the Baron's son, and being doomed never more to see the beautiful Cunegonde? What will it avail me to spin out my wretched days and drag them far from her in remorse and despair? And what will the Journal of Trevoux say?"
-    
+
     While he was thus lamenting his fate, he went on eating. The sun went down. The two wanderers heard some little cries which seemed to be uttered by women. They did not know whether they were cries of pain or joy; but they started up precipitately with that inquietude and alarm which every little thing inspires in an unknown country. The noise was made by two naked girls, who tripped along the mead, while two monkeys were pursuing them and biting their buttocks. Candide was moved with pity; he had learned to fire a gun in the Bulgarian service, and he was so clever at it, that he could hit a filbert in a hedge without touching a leaf of the tree. He took up his double-barrelled Spanish fusil, let it off, and killed the two monkeys.
   TEST
 
@@ -21,7 +21,7 @@ describe TextRank::RankFilter::CollapseAdjacent do
         'mead'      => 0.014341784918006825,
         'cries'     => 0.014292943715786686,
       },
-      original_text: EXAMPLE_TEXT,
+      original_text: example_text,
     )
     expect(collapsed.keys).to match_array([
                                             'candide',
@@ -46,7 +46,7 @@ describe TextRank::RankFilter::CollapseAdjacent do
         'mead'      => 0.014341784918006825,
         'unknown'   => 0.014292943715786686,
       },
-      original_text: EXAMPLE_TEXT,
+      original_text: example_text,
     )
     expect(collapsed.keys).to match_array([
                                             'candide',
@@ -71,7 +71,7 @@ describe TextRank::RankFilter::CollapseAdjacent do
         'monkeys'   => 0.014341784918006825,
         'unknown'   => 0.014292943715786686,
       },
-      original_text: EXAMPLE_TEXT,
+      original_text: example_text,
     )
     expect(collapsed.keys).to match_array([
                                             'candide',
@@ -96,7 +96,7 @@ describe TextRank::RankFilter::CollapseAdjacent do
         'days'      => 0.014341784918006825,
         'unknown'   => 0.014292943715786686,
       },
-      original_text: EXAMPLE_TEXT,
+      original_text: example_text,
     )
     expect(collapsed.keys).to match_array([
                                             'cacambo',
@@ -121,7 +121,7 @@ describe TextRank::RankFilter::CollapseAdjacent do
         'mead'      => 0.014341784918006825,
         'unknown'   => 0.014292943715786686,
       },
-      original_text: EXAMPLE_TEXT,
+      original_text: example_text,
     )
     expect(collapsed.keys).to match_array([
                                             'candide', # we retain 'candide' because it occurs more times than 'and candide'
@@ -149,7 +149,7 @@ describe TextRank::RankFilter::CollapseAdjacent do
         'monkeys'   => 0.013157860280239304, # Not in the top 8
         'cunegonde' => 0.007292943715791801, # Not in the top 8
       },
-      original_text: EXAMPLE_TEXT,
+      original_text: example_text,
     )
     expect(collapsed.keys).to match_array([
                                             'candide',
@@ -176,7 +176,7 @@ describe TextRank::RankFilter::CollapseAdjacent do
         'mead'          => 0.014341784918006825,
         'certification' => 0.014292943715786686,
       },
-      original_text: "Product Certiﬁcation #{EXAMPLE_TEXT}",
+      original_text: "Product Certiﬁcation #{example_text}",
     )
     expect(collapsed.keys).to match_array([
                                             'product certiﬁcation',

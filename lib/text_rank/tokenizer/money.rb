@@ -1,7 +1,7 @@
 module TextRank
   module Tokenizer
 
-    CURRENCY_SYMBOLS = '[' + [
+    CURRENCY_SYMBOLS = "[#{[
       "\u00a4", # Generic Currency Symbol
       "\u0024", # Dollar Sign
       "\u00a2", # Cent Sign
@@ -26,14 +26,13 @@ module TextRank
       "\u20ab", # Dong Sign
       "\u0025", # Percent
       "\u2030", # Per Million
-    ].join + ']'
+    ].join}]"
     private_constant :CURRENCY_SYMBOLS # Do not expose this to avoid confusion
 
     ##
     # A tokenizer regex that preserves money or formatted numbers as a single token. This
     # currently supports 24 different currency symbols:
     #
-    # rubocop:disable Style/AsciiComments
     #
     # * ¤
     # * $
@@ -60,7 +59,6 @@ module TextRank
     # * %
     # * ‰
 
-    # rubocop:enable Style/AsciiComments
     #
     # It also supports two alternative formats for negatives as well as optional three digit comma
     # separation and optional decimals.

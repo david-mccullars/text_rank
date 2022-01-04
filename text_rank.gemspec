@@ -1,4 +1,4 @@
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'text_rank/version'
 
@@ -18,15 +18,23 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.extensions    = ['ext/text_rank/extconf.rb']
   spec.require_paths = ['lib']
+  spec.required_ruby_version = '>= 3.0.0'
 
   spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'github-markup'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rake-compiler'
+  spec.add_development_dependency 'redcarpet'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'rubocop-rake'
+  spec.add_development_dependency 'rubocop-rspec'
+  spec.add_development_dependency 'simplecov', '~> 0.17.0' # 0.18 not supported by code climate
   spec.add_development_dependency 'yard'
 
   spec.add_development_dependency 'engtagger' # Optional runtime dependency but needed for specs
   spec.add_development_dependency 'nokogiri'  # Optional runtime dependency but needed for specs
+  spec.metadata = {
+    'rubygems_mfa_required' => 'true',
+  }
 end

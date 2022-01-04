@@ -151,7 +151,7 @@ module TextRank
         # tokenization (e.g. ASCII folding).  That's okay.  We're just making the best effort we can
         # to find what we can.
         def scan_text_for_all_permutations_of(single_tokens)
-          # NOTE that by reversing the order we craft the regex to prefer larger combinations over
+          # NOTE: that by reversing the order we craft the regex to prefer larger combinations over
           # smaller combinations (or singletons).
           perms = (1..@max_tokens_to_combine).to_a.reverse.flat_map do |n|
             scan_text_for_n_permutations_of(single_tokens, n)
@@ -162,8 +162,8 @@ module TextRank
           end unless perms.empty?
         end
 
-        def scan_text_for_n_permutations_of(single_tokens, n)
-          single_tokens.permutation(n).map do |perm|
+        def scan_text_for_n_permutations_of(single_tokens, n_perms)
+          single_tokens.permutation(n_perms).map do |perm|
             unless @permutations_scanned.key?(perm)
               @permutations_scanned[perm] = 0
               perm

@@ -17,6 +17,7 @@ module TextRank
     class StripHtml < Nokogiri::XML::SAX::Document
 
       def initialize
+        super
         @text = StringIO.new
       end
 
