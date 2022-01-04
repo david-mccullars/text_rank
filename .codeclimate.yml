@@ -1,15 +1,25 @@
 ---
 engines:
+  cppcheck:
+    enabled: true
+    check: all
+    inline-suppr: true
+    language: c
   duplication:
     enabled: true
     config:
       languages:
+      - c
       - ruby
     checks:
       Similar code:
         enabled: false
   fixme:
     enabled: true
+  flog:
+    enabled: true
+    config:
+      score_threshold: 20.0
   rubocop:
     enabled: true
     exclude_fingerprints:
