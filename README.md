@@ -8,9 +8,10 @@
 ## Status
 
 [![Gem Version](https://badge.fury.io/rb/text_rank.svg)](https://badge.fury.io/rb/text_rank)
-[![Travis Build Status](https://travis-ci.org/david-mccullars/text_rank.svg?branch=master)](https://travis-ci.org/david-mccullars/text_rank)
+[![Build Status](https://github.com/david-mccullars/text_rank/workflows/CI/badge.svg)](https://github.com/david-mccullars/text_rank/actions?workflow=CI)
 [![Code Climate](https://codeclimate.com/github/david-mccullars/text_rank/badges/gpa.svg)](https://codeclimate.com/github/david-mccullars/text_rank)
 [![Test Coverage](https://codeclimate.com/github/david-mccullars/text_rank/badges/coverage.svg)](https://codeclimate.com/github/david-mccullars/text_rank/coverage)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 
 ## Description
@@ -45,7 +46,7 @@ gem install text_rank
 
 ## Requirements
 
-* Ruby 2.1.2 or higher
+* Ruby 3.0.0 or higher
 * [engtagger](https://github.com/yohasebe/engtagger) gem is optional but
 required for `TextRank::TokenFilter::PartOfSpeech`
 * [nokogiri](https://github.com/sparklemotion/nokogiri) gem is optional but
@@ -82,7 +83,7 @@ extractor = TextRank::KeywordExtractor.new(
   damping:    0.85,     # The probability of following the graph vs. randomly choosing a new node
   tolerance:  0.0001,   # The desired accuracy of the results
   char_filters: [...],  # A list of filters to be applied prior to tokenization
-  tokenizer: ...,       # A class or tokenizer instance to perform tokenization
+  tokenizers: [...],    # A list of tokenizers to perform tokenization
   token_filters: [...], # A list of filters to be applied to each token after tokenization
   graph_strategy: ...,  # A class or strategy instance for producing a graph from tokens
   rank_filters: [...],  # A list of filters to be applied to the keyword ranks after keyword extraction
